@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="297mm"
+   height="210mm"
+   id="svg5176"
+   sodipodi:docname="Nanorana_parkeri.svg"
+   inkscape:version="0.92.3 (unknown)"
+   inkscape:export-filename="/home/mjeltsch/Documents/Informatics/Phylogeny2/new/images/frog.png"
+   inkscape:export-xdpi="17.0543"
+   inkscape:export-ydpi="17.0543">
+  <metadata
+     id="metadata8">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1533"
+     inkscape:window-height="997"
+     id="namedview6"
+     showgrid="false"
+     inkscape:zoom="0.67746477"
+     inkscape:cx="187.66707"
+     inkscape:cy="479.09596"
+     inkscape:window-x="534"
+     inkscape:window-y="182"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1"
+     units="mm" />
+  <defs
+     id="defs5178" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="Layer 1"
+     style="display:inline"
+     transform="translate(0,145.48808)">
+    <path
+       style="fill:#000000;stroke-width:1"
+       d="m 719.10112,43.67113 c -25.42246,-0.5019 -39.20279,20.68137 -57.50238,32.84376 -20.98841,7.45776 -33.86206,27.07768 -53.51682,37.32509 -19.6369,16.62873 -45.56807,16.62515 -69.59812,20.75336 -21.09829,-0.009 -42.99589,3.8881 -64.58657,2.13232 -23.91317,7.50532 -33.52385,33.5255 -55.11422,42.66641 -10.90217,7.02816 -29.11546,11.0899 -44.26493,20.48219 -18.01475,11.82338 -27.68501,32.7881 -46.96655,43.88335 -17.78778,14.81596 -26.18493,36.77267 -41.35827,53.95305 -14.49268,25.11066 13.04559,45.9995 37.23278,38.03656 20.8853,-5.71662 -15.42442,33.26136 11.2447,41.73323 9.45256,9.36266 42.43382,-0.41788 18.46915,13.60358 -13.14021,23.72366 22.28452,39.23669 39.91112,45.59216 22.07311,8.04162 45.73522,15.54666 69.45378,12.50164 28.95292,4.80657 58.20585,2.0876 87.45429,5.96962 22.00502,2.26471 43.79428,5.17735 66.49542,3.32804 18.30765,-4.99369 33.14029,-10.61762 40.63146,-28.74461 3.2248,-12.61692 8.68227,-10.44486 10.2364,-6.57506 3.47793,-10.52648 14.47392,-18.32548 28.05608,-19.34009 12.08939,13.34282 34.83877,18.96382 53.26404,11.19281 12.77776,-0.44503 25.17849,-4.70202 36.82695,-10.36235 7.916,0.87969 44.18261,3.06498 21.28984,-7.4028 -30.33863,-16.21474 33.60433,-18.55448 8.52792,-32.85417 -11.81251,-0.71434 -50.6609,17.57659 -39.92327,-7.17979 12.69883,-6.51102 17.46917,-27.18291 -2.66064,-14.98603 -11.41276,9.19317 -17.43933,25.60103 -30.17558,12.00111 -10.75838,-10.45686 -31.48514,-5.60304 -34.09152,-19.35414 6.54897,-20.34897 9.74911,-40.63634 23.04536,-57.29324 9.68809,-19.57423 18.37134,-39.58769 24.00947,-60.73721 8.16546,-15.64257 18.84768,-35.75603 34.78812,-41.55046 15.81309,-16.5651 37.47828,-27.62316 50.06801,-47.02129 C 838.60526,108.0574 818.06997,95.25712 805.72818,80.09476 784.29001,58.11699 753.76887,68.50323 733.36749,48.29197 c -5.18764,-0.19928 -9.18256,-4.31955 -14.26637,-4.62084 z m 18.58804,60.95422 c 12.96528,-0.70284 14.76031,20.2323 1.8608,21.74263 -12.45554,2.85811 -17.99937,-17.02275 -5.82851,-20.99848 1.26123,-0.49106 2.61455,-0.74468 3.96771,-0.74415 z"
+       id="path2823"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

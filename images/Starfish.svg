@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg6539"
+   sodipodi:docname="Starfish.svg"
+   viewBox="0 0 1122.5197 793.70078"
+   version="1.1"
+   inkscape:version="0.92.3 (unknown)"
+   width="297mm"
+   height="210mm">
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     id="base"
+     bordercolor="#666666"
+     inkscape:pageshadow="2"
+     inkscape:window-y="24"
+     fit-margin-left="0"
+     pagecolor="#ffffff"
+     fit-margin-top="0"
+     inkscape:window-maximized="1"
+     inkscape:zoom="0.7"
+     inkscape:window-x="65"
+     inkscape:window-height="1416"
+     showgrid="false"
+     borderopacity="1.0"
+     inkscape:current-layer="layer1"
+     inkscape:cx="25.613689"
+     inkscape:cy="-21.847963"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="2495"
+     inkscape:pageopacity="0.0"
+     inkscape:document-units="px"
+     units="mm"
+     showguides="false" />
+  <g
+     id="layer1"
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     transform="translate(-7.5162,630.77879)">
+    <path
+       style="fill:#000000;stroke:#000000;stroke-width:1px;fill-opacity:1.0"
+       d="M 533.89648 77.880859 C 516.6249 79.558402 505.71157 284.55009 508.49414 306.82422 C 511.46158 330.58371 438.7427 309.05184 398.67383 296.42969 C 358.60496 283.80755 245.0738 283.06557 210.19922 285.29297 C 175.3259 287.52033 230.97656 320.18945 230.97656 320.18945 C 230.97656 320.18945 426.86805 396.66177 449.12891 417.45117 C 471.39203 438.23909 363.06765 553.31058 363.05664 553.32227 C 363.05364 553.32646 325.95521 605.29278 317.79297 617.17188 C 309.63082 629.04886 284.4031 679.53789 288.11328 692.16016 C 291.82343 704.78243 320.76172 681.76566 320.76172 681.76562 L 443.19531 585.98828 C 443.19531 585.98828 524.81825 508.77308 549.30469 504.31836 C 573.79239 499.86449 695.48242 636.47852 695.48242 636.47852 C 695.48242 636.47852 797.88307 724.09108 814.94922 715.18164 C 832.01833 706.2739 739.26537 580.79551 722.19922 558.52148 C 705.13011 536.24788 668.02901 466.45438 659.125 442.69531 C 650.21846 418.93836 774.13672 393.69336 774.13672 393.69336 C 774.13672 393.69336 908.44426 340.23564 922.54297 316.47656 C 936.64042 292.71745 829.04786 312.76463 785.26758 320.18945 C 741.4873 327.61426 664.3173 342.46308 632.41016 337.26562 C 600.50407 332.06734 601.98815 277.8673 599.76172 251.88086 C 597.53826 225.89359 556.72574 109.32761 537.43359 80.371094 C 536.22781 78.561311 535.04792 77.769023 533.89648 77.880859 z M 535.62109 94.666016 C 535.70087 94.625072 535.81008 94.802955 535.94922 95.220703 C 538.9173 104.13014 567.85547 240.74302 567.85547 257.07812 C 567.85547 273.41237 570.08072 349.14548 563.40234 355.08398 C 556.72391 361.02375 551.53125 352.85742 551.53125 352.85742 L 551.53125 352.85547 C 551.53125 352.85547 544.11133 198.42092 544.11133 192.48242 C 544.11133 186.82108 533.99895 95.498539 535.62109 94.666016 z M 227.26758 295.6875 C 246.56016 294.94502 410.5486 325.38586 437.25977 332.06836 C 463.97263 338.75044 532.23746 364.73784 530.00977 371.41992 C 527.78381 378.102 519.62305 379.58594 519.62305 379.58594 L 519.625 379.58789 L 331.89453 324.64258 C 331.89453 324.64258 207.975 296.43023 227.26758 295.6875 z M 911.26562 313.45117 C 913.49759 313.49931 913.7575 313.97317 911.42383 314.98828 C 894.35767 322.4131 743.72949 360.27975 695.49805 369.1875 C 647.26661 378.09736 565.64495 396.65866 593.83984 375.12695 L 593.83984 375.12891 C 593.83984 375.12891 772.66753 339.49043 789.73242 334.29297 C 804.13234 329.90762 893.01753 313.89441 910.18945 313.45703 C 910.58695 313.44691 910.94677 313.44429 911.26562 313.45117 z M 549.07812 401.45312 C 551.56504 401.54451 552.64428 403.52734 551.53125 408.53906 C 548.56339 421.90491 524.07617 450.86133 524.07617 450.86133 L 317.05273 663.20898 L 317.05078 663.20703 C 317.05078 663.20703 304.43552 672.11631 312.59766 653.55469 C 320.76023 634.99476 515.17091 419.6769 528.52734 411.50977 C 536.87485 406.40518 544.93327 401.30084 549.07812 401.45312 z M 581.48438 418.01172 C 582.14173 417.99097 583.03771 418.28576 584.19727 418.93555 C 602.74798 429.33004 611.65234 444.92186 611.65234 444.92188 L 611.64844 444.92383 C 611.64844 444.92383 702.91704 578.56828 714.79102 589.70508 C 726.66331 600.8423 807.54211 696.62092 791.96094 686.96875 C 776.37851 677.31657 639.84809 525.85095 627.23438 507.29102 C 615.40821 489.88911 571.62401 418.32296 581.48438 418.01172 z "
+       transform="translate(7.5162,-630.77879)"
+       id="path825" />
+  </g>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title></dc:title>
+        <dc:date>2013-01-27T14:23:59</dc:date>
+        <dc:description />
+        <dc:source>https://openclipart.org/detail/174579/starfish-by-gosc-174579</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Gosc</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>Asterozoa</rdf:li>
+            <rdf:li>Echinodermata</rdf:li>
+            <rdf:li>Seestern</rdf:li>
+            <rdf:li>animal</rdf:li>
+            <rdf:li>biology</rdf:li>
+            <rdf:li>black and white</rdf:li>
+            <rdf:li>contour</rdf:li>
+            <rdf:li>line art</rdf:li>
+            <rdf:li>outline</rdf:li>
+            <rdf:li>starfish</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>
