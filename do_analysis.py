@@ -7,7 +7,7 @@
 # This script has been developed to run under Linux and was specifically tested ONLY under Ubuntu 16.04 and 18.04.
 # It requires the installation of the following ubuntu packages: 
 #
-# t-coffee
+# python3-setuptools
 # clustalw
 # mafft
 # dialign-tx
@@ -18,9 +18,11 @@
 # amap-align
 # proda
 # prank
+# t-coffee
 # phyml
 #
-# sudo apt -y --show-progress install clustalw mafft dialign-tx poa probcos muscle kalign amap-align proda prank t-coffee phyml
+# sudo apt -y --show-progress install inkscape python3-setuptools python3-pyqt4 python3-pyqt4.qtopengl autoconf t-coffee clustalw mafft dialign-tx poa probcons muscle kalign amap-align proda prank phyml t-coffee imagemagick build-essential libblas-dev liblapack-dev zlib1g-dev libcairo2-dev libcurl4-openssl-dev python3-numpy python3-lxml python3-six
+#
 #
 # For some reason the Ubuntu package names some of the alignment executables differently and some links need to be
 # created in order for t-coffee to find them:
@@ -53,8 +55,10 @@
 #
 # biopython
 # ete3
+#
+# sudo pip3 install biopython ete3
 
-import argparse, re, requests, wikipedia, subprocess, Bio, os, time, datetime, sys
+import argparse, subprocess, Bio, os, sys
 from Bio.Blast import NCBIWWW
 from Bio.Blast import NCBIXML
 from Bio.Blast.Applications import NcbipsiblastCommandline
