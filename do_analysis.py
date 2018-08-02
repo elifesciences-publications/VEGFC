@@ -184,7 +184,7 @@ def align():
 
     execute_subprocess(
         "Decoding tree file file into human-readable format using the following command:",
-        "t_coffee -other_pg seq_reformat -decode code_names.list -in " + PHYLIP_ALIGNED_TRIMMED_CODED + "_phyml_tree.txt > " + PHYLIP_ALIGNED_TRIMMED_DECODED)
+        "t_coffee -other_pg seq_reformat -decode code_names.list -in " + PHYLIP_ALIGNED_TRIMMED_CODED + "_phyml_tree > " + PHYLIP_ALIGNED_TRIMMED_DECODED)
 
 def evaluate():
     execute_subprocess(
