@@ -21,14 +21,14 @@
 # t-coffee
 # phyml
 #
-# sudo apt -y --show-progress install inkscape python3-setuptools python3-pyqt4 python3-pyqt4.qtopengl autoconf t-coffee clustalw mafft dialign-tx poa probcons muscle kalign amap-align proda prank phyml t-coffee imagemagick build-essential libblas-dev liblapack-dev zlib1g-dev libcairo2-dev libcurl4-openssl-dev python3-numpy python3-lxml python3-six
+# sudo apt -y --show-progress install inkscape python3-setuptools python3-pyqt4 python3-pyqt4.qtopengl python3-pip autoconf t-coffee clustalw mafft dialign-tx poa probcons muscle kalign amap-align proda prank phyml t-coffee imagemagick build-essential libblas-dev liblapack-dev zlib1g-dev libcairo2-dev libcurl4-openssl-dev python3-numpy python3-lxml python3-six
 #
 #
 # For some reason the Ubuntu package names some of the alignment executables differently and some links need to be
 # created in order for t-coffee to find them:
 #
-# ln -s /usr/bin/dialign-tx /bin/dialign-t
-# ln -s /usr/bin/clustalw /bin/clustalw2
+# sudo ln -s /usr/bin/dialign-tx /bin/dialign-t
+# sudo ln -s /usr/bin/clustalw /bin/clustalw2
 #
 #
 # MANUAL INSTALLATIONS
@@ -44,9 +44,10 @@
 #
 # OPTIONAL INSTALLS
 #
-# The multi-processor-enabled version of phyml (phyml-mpi) is not available as a precompiled Ubuntu package and needs
-# to be installed manually, but they single-processor version works as well (is just slower). If this script is run on
-# a (headless) server, the xvfb package is required since the ete3 package requires the presence of x.org.
+# The multicore-enabled version of phyml (phyml-mpi) is not available as a precompiled Ubuntu package and needs
+# to be installed manually, but they single-core version works as well (is just slower). The command to execute
+# the multicore version is: "mpirun -n 4 phyml-mpi -i " + PHYLIP_ALIGNED_TRIMMED_CODED +  " -d aa -b -1"
+# If this script is run on a (headless) server, the xvfb package is required since the ete3 package requires the presence of x.org.
 #
 #
 # PYTHON MODULES
@@ -179,7 +180,7 @@ def align():
 
     execute_subprocess(
         "Make tree with the following command:",
-        "mpirun -n 4 /home/mjeltsch/bin/phyml-mpi -i " + PHYLIP_ALIGNED_TRIMMED_CODED +  " -d aa -b -1")
+        "phyml -i " + PHYLIP_ALIGNED_TRIMMED_CODED +  " -d aa -b -1")
 
     execute_subprocess(
         "Decoding tree file file into human-readable format using the following command:",
