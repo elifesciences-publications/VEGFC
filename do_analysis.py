@@ -5,7 +5,7 @@
 # UBUNTU PACKAGES
 #
 # This script has been developed to run under Linux and was specifically tested ONLY under Ubuntu 16.04 and 18.04.
-# It requires the installation of the following ubuntu packages: 
+# It requires the installation of the following ubuntu packages:
 #
 # python3-setuptools
 # clustalw
@@ -39,7 +39,7 @@
 # tar -xvzf pcma.tar.gz
 # cd pcma
 # make
-# sudo cp pcma /bin 
+# sudo cp pcma /bin
 #
 #
 # OPTIONAL INSTALLS
@@ -60,13 +60,12 @@
 # sudo pip3 install biopython ete3
 
 import argparse, subprocess, Bio, os, sys
-from Bio.Blast import NCBIWWW
-from Bio.Blast import NCBIXML
-from Bio.Blast.Applications import NcbipsiblastCommandline
+#from Bio.Blast import NCBIWWW
+#from Bio.Blast import NCBIXML
+#from Bio.Blast.Applications import NcbipsiblastCommandline
 from Bio import Entrez
 from Bio import SeqIO
 from ete3 import Tree, TreeStyle, TextFace, NodeStyle, SequenceFace, ImgFace, SVGFace, faces, add_face_to_node
-from shutil import copyfile
 
 FASTA = 'sequences.fasta'
 FASTA_ALIGNED = 'sequences_aligned.fasta'
@@ -117,6 +116,8 @@ sequence_dictionary =  {'XP_022098898.1':["Starfish.svg", "Starfish", "Acanthast
          'XP_526740.1':["Pan_troglodytes.svg", "Chimpanzee", "Pan troglodytes", "Mammalia"],
          'NP_005420.1':["Homo_sapiens.svg", "Human", "Homo_sapiens", "Mammalia"],
          'NP_776913.1':["Bos_taurus.svg", "Cattle", "Bos taurus", "Mammalia"],
+         'XP_019777186.1':["Tursiops_truncatus.svg", "Dolphin", "Tursiops truncatus", "Mammalia"],
+         'XP_004280970.1':["Orcinus_orca.svg", "Orca", "Orcinus orca", "Mammalia"],
          'NP_033532.1':["Mus_musculus.svg", "Mouse", "Mus musculus", "Mammalia"],
          'NP_446105.1':["Rattus_norvegicus.svg", "Rat", "Rattus norvegicus", "Mammalia"],
          'XP_007496150.2':["Monodelphis_domestica.svg", "Opossum", "Monodelphis domestica", "Mammalia"],
