@@ -88,6 +88,7 @@ args = parser.parse_args()
 
 sequence_dictionary =  {'XP_022098898.1':["Starfish.svg", "Starfish", "Acanthaster planci", "Asteroidea"],
          'XP_007894115.1':["Callorhinchus_milii.svg", "Ghost shark", "Callorhinchus milii", "Chondrichthyes"],
+#         'NP_002599.1':["Homo_sapiens.svg", "Human PDGF-B", "Homo sapiens", "Mammalia"],
          'XP_020376152.1':["Rhincodon_typus.svg", "Whale shark", "Rhincodon typus", "Chondrichthyes"],
          'XP_006632034.2':["Spotted_gar.svg", "Spotted gar", "Lepisosteus oculatus", "Actinopterygii"],
          'NP_001167218.1':["Salmo_salar.svg", "Atlantic salmon", "Salmo salar", "Actinopterygii"],
@@ -98,20 +99,20 @@ sequence_dictionary =  {'XP_022098898.1':["Starfish.svg", "Starfish", "Acanthast
          'XP_023189044.1':["Platyfish.svg", "Platy fish", "Xiphophorus maculatus", "Actinopterygii"],
          'XP_007564695.1':["Poecilia_formosa.svg", "Amazon molly", "Poecilia formosa", "Actinopterygii"],
          'XP_006006690.1':["Coelacant.svg", "Coelacant", "Latimeria chalumnae", "Sarcopterygii"],
-#         'XP_002933363.1':["Xenopus_tropicalis.svg", "Xenopus", "Xenopus tropicalis", "Amphibia"],
-#         'XP_018419054.1':["Nanorana_parkeri.svg", "Tibet frog", "Nanorana parkeri", "Amphibia"],
-#         'XP_015283812.1':["Gekko_japonicus.svg", "Gekko", "Gekko japonicus", "Reptilia"],
-#         'ETE60014.1':["Ophiophagus_hannah.svg", "King cobra", "Ophiophagus hannah", "Reptilia"],
-#         'XP_003221689.1':["Lizard.svg", "Anole lizard", "Anolis carolinensis", "Reptilia"],
-#         'XP_005304228.1':["Turtle.svg", "Painted turtle", "Chrysemys picta bellii", "Reptilia"],
-#         'XP_006276984.1':["Alligator_mississippiensis.svg", "American Alligator", "Alligator mississippiensis", "Reptilia"],
-#         'XP_009329004.1':["Pygoscelis_adeliae.svg", "Penguin", "Pygoscelis adeliae", "Aves"],
-#         'XP_013045797.1':["Anser_cygnoides_domesticus.svg", "Goose", "Anser cygnoides domesticus", "Aves"],
-#         'XP_420532.3':["Gallus_gallus.svg", "Chicken", "Gallus gallus", "Aves"],
-#         'XP_009486688.1':["Pelecanus_crispus.svg", "Pelican", "Pelecanus crispus", "Aves"],
-#         'XP_008490178.1':["Calypte_anna.svg", "Hummingbird", "Calypte anna", "Aves"],
-#         'XP_009564005.1':["Cuculus_canorus.svg", "Cuckoo", "Cuculus canorus", "Aves"],
-#         'XP_002189592.1':["Taeniopygia_guttata.svg", "Zebra finch", "Taeniopygia guttata", "Aves"],
+         'XP_002933363.1':["Xenopus_tropicalis.svg", "Xenopus", "Xenopus tropicalis", "Amphibia"],
+         'XP_018419054.1':["Nanorana_parkeri.svg", "Tibet frog", "Nanorana parkeri", "Amphibia"],
+         'XP_015283812.1':["Gekko_japonicus.svg", "Gekko", "Gekko japonicus", "Reptilia"],
+         'ETE60014.1':["Ophiophagus_hannah.svg", "King cobra", "Ophiophagus hannah", "Reptilia"],
+         'XP_003221689.1':["Lizard.svg", "Anole lizard", "Anolis carolinensis", "Reptilia"],
+         'XP_005304228.1':["Turtle.svg", "Painted turtle", "Chrysemys picta bellii", "Reptilia"],
+         'XP_006276984.1':["Alligator_mississippiensis.svg", "American Alligator", "Alligator mississippiensis", "Reptilia"],
+         'XP_009329004.1':["Pygoscelis_adeliae.svg", "Penguin", "Pygoscelis adeliae", "Aves"],
+         'XP_013045797.1':["Anser_cygnoides_domesticus.svg", "Goose", "Anser cygnoides domesticus", "Aves"],
+         'XP_420532.3':["Gallus_gallus.svg", "Chicken", "Gallus gallus", "Aves"],
+         'XP_009486688.1':["Pelecanus_crispus.svg", "Pelican", "Pelecanus crispus", "Aves"],
+         'XP_008490178.1':["Calypte_anna.svg", "Hummingbird", "Calypte anna", "Aves"],
+         'XP_009564005.1':["Cuculus_canorus.svg", "Cuckoo", "Cuculus canorus", "Aves"],
+         'XP_002189592.1':["Taeniopygia_guttata.svg", "Zebra finch", "Taeniopygia guttata", "Aves"],
          'XP_003415871.1':["Loxodonta_africana.svg", "African elephant", "Loxodonta africana", "Mammalia"],
          'XP_540047.2':["Canis_familiaris.svg", "Dog", "Canis lupus familiaris", "Mammalia"],
          'XP_526740.1':["Pan_troglodytes.svg", "Chimpanzee", "Pan troglodytes", "Mammalia"],
@@ -184,9 +185,13 @@ def align():
         "Make tree with the following command:",
         "phyml -i " + PHYLIP_ALIGNED_TRIMMED_CODED +  " -d aa -b -1")
 
+    # phyml adds or doesn't add the .txt extension to the output file (depending on the version) and we need to check for this!
+    phyml_output_file = PHYLIP_ALIGNED_TRIMMED_CODED + "_phyml_tree"
+    if os.path.isfile(phyml_output_file):
+        os.rename(phyml_output_file, phyml_output_file + ".txt")
     execute_subprocess(
         "Decoding tree file file into human-readable format using the following command:",
-        "t_coffee -other_pg seq_reformat -decode code_names.list -in " + PHYLIP_ALIGNED_TRIMMED_CODED + "_phyml_tree > " + PHYLIP_ALIGNED_TRIMMED_DECODED)
+        "t_coffee -other_pg seq_reformat -decode code_names.list -in " + phyml_output_file + ".txt > " + PHYLIP_ALIGNED_TRIMMED_DECODED)
 
 def evaluate():
     execute_subprocess(
@@ -258,7 +263,6 @@ def drawtree():
                                 'Y': 'White',
                                 '-': 'White'}
 
-    spequence_number = 100
     outgroup_name = 'XP_022098898.1'
 
     t = Tree(PHYLIP_ALIGNED_TRIMMED_DECODED)
@@ -452,8 +456,15 @@ def drawtree():
     # Sarcopterygii, e.g. Coelacant - XP_006006690.1
     # Mammals, e.g. Rat - NP_446105.1
     # Birds, e.g. Chicken - XP_420532.3
-    n1 = t.get_common_ancestor("XP_420532.3", "NP_446105.1")
+    #n1 = t.get_common_ancestor("XP_420532.3", "NP_446105.1")
+
+    # spotted gar and coelacant
+    n1 = t.get_common_ancestor("XP_006632034.2", "XP_006006690.1")
     n1.swap_children()
+
+    # Atlantic salmon and coelacant
+    n2 = t.get_common_ancestor("NP_001167218.1", "XP_006006690.1")
+    n2.swap_children()
 
     # Add description to treefile
     #
@@ -466,7 +477,7 @@ def drawtree():
     description_text += "\n"
 
     #ts.title.add_face(TextFace(description_text, fsize=12), column=0)
-    t.render(SVG_TREEFILE, tree_style = ts, units = "mm", h = spequence_number*12)
+    t.render(SVG_TREEFILE, tree_style = ts, units = "mm", h = 120)
 
 def run():
     if 'download' in args.options:
