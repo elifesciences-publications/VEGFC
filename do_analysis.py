@@ -85,11 +85,29 @@ parser.add_argument("options", help = "Possible command line arguments: download
 args = parser.parse_args()
 
 # Animal SVG silouette images from http://phylopic.org (public domain) or own creations
-
+# It would be nice to have a lungfish VEGF-C, but the genomes have not been made publicly available!
+# Protopterus annectens
+# Neoceratodus forsteri
+# Lepidosiren paradoxa
+#
 sequence_dictionary =  {'XP_022098898.1':["Starfish.svg", "Starfish", "Acanthaster planci", "Asteroidea"],
          'XP_007894115.1':["Callorhinchus_milii.svg", "Ghost shark", "Callorhinchus milii", "Chondrichthyes"],
 #         'NP_002599.1':["Homo_sapiens.svg", "Human PDGF-B", "Homo sapiens", "Mammalia"],
          'XP_020376152.1':["Rhincodon_typus.svg", "Whale shark", "Rhincodon typus", "Chondrichthyes"],
+         'ENSEBUT00000000354.1':["Eptatretus_burgeri.svg", "Hagfish", "Eptatretus burgeri", "Myxini", '''>ENSEBUT00000000354.1 PREDICTED: VEGF-C Inshore hagfish [Eptatretus burgeri]
+LAIDVLHLHIHPDYLQDNEDIQTDHDPWEIIDTDTFPKGALGPKRIERLTRRLLAASSVD
+DLLTLLYPWPEEATAQRCRRGHRTEPQFQAAVVNINWEAIELEWSNTLCAPRQACVPTGP
+DSHSVERSLHYRPPCVSLHRCTGCCNDPRRSCTSTAVQHVSKTVIEISLFPELVIRPVTI
+SYKNHTECHCLTIPFHNVRPPRSVSKTWRDGGQCGPTSGSCAKGTSWNVEACRCVAQQGV
+GEVCGPGMKWNEEMCNCVCWRVCPRGQRLHTQSCGCECALNTRDCFLRARRFDRRKCRCV
+TAPCPGAPEVCPVGLGFSEELCRCVPQDWIQGLQRNGG\n'''],
+         'LS-transcriptB2-ctg17881':['Leucoraja_erinacea.svg', 'Skate', "Leucoraja erinacea", "Chondrichthyes", '''>LS-transcriptB2-ctg17881 PREDICTED: VEGF-C Little skate [Leucoraja erinacea]
+RDQAHSQGQATSQLEQQLRSAASIIELMDIFYPEYRRIQECLQRRSTMAKHARREVEEEQ
+EEEEEEEWTEAAAFTVLWREEDLRNIELEWERTQCKPREVCLDLGRELGTATNNFYKPPC
+VSVHRCGGCCNNEGFQCINVSTAFVSKTLMEITIPQVGLSRPVVISFINHTACGCHPRHI
+FSHSHSIIRRSFHVSPTSCVMGNETCPRGHHWDPHHCGCVSVHEVAAPPASTAEPDVTEG
+EFDDFCGPYMVFDEDSCSCVCTNRPSSCHPSKEFDENTCRCVCFNRQHRGLCREEEQEEW
+DDDACQCVCRKSCPRHLPLNTNTCTCECSESPASCFRRGKKFDPYTCRCYRLPC\n'''],
          'XP_006632034.2':["Spotted_gar.svg", "Spotted gar", "Lepisosteus oculatus", "Actinopterygii"],
          'NP_001167218.1':["Salmo_salar.svg", "Atlantic salmon", "Salmo salar", "Actinopterygii"],
          'NP_991297.1':["Danio_rerio.svg", "Zebrafish", "Danio rerio", "Actinopterygii"],
@@ -151,13 +169,18 @@ def download():
     file = open(FASTA,"w")
     print("Retrieving sequences from Entrez:\n")
     for item in sequence_dictionary:
-        print("Retrieving " + item)
-        try:
-            with Entrez.efetch(db="protein", rettype="fasta", retmode="text", id=item) as handle:
-                seq_record = SeqIO.read(handle, "fasta")
-                file.write(seq_record.format("fasta"))
-        except Exception as ex:
-            print("Problem contacting Blast server. Skipping " + item + ". Error: " + str(ex))
+        # If the sequence is given locally
+        if len(sequence_dictionary[item]) > 4:
+            print(sequence_dictionary[item][4])
+            file.write(sequence_dictionary[item][4])
+        else:
+            print("Retrieving " + item)
+            try:
+                with Entrez.efetch(db="protein", rettype="fasta", retmode="text", id=item) as handle:
+                    seq_record = SeqIO.read(handle, "fasta")
+                    file.write(seq_record.format("fasta"))
+            except Exception as ex:
+                print("Problem contacting Blast server. Skipping " + item + ". Error: " + str(ex))
     file.close()
 
 def align():
@@ -302,6 +325,9 @@ def drawtree():
     # Amphibia
     amphibia = NodeStyle()
     amphibia["bgcolor"] = "DarkSeaGreen"
+    # Myxini
+    myxini = NodeStyle()
+    myxini["bgcolor"] = "LightBlue"
 
     general_leaf_style = NodeStyle()
     # size of the blue ball
@@ -338,6 +364,8 @@ def drawtree():
                 node.set_style(aves)
             elif animal_class_name == 'Amphibia':
                 node.set_style(amphibia)
+            elif animal_class_name == 'Myxini':
+                node.set_style(myxini)
             else:
                 node.set_style(nstyle)
             # Set general leaf attributes
@@ -400,6 +428,8 @@ def drawtree():
             svgFace.background.color = "DarkSalmon"
         elif animal_class_name == 'Amphibia':
             svgFace.background.color = "DarkSeaGreen"
+        elif animal_class_name == 'Myxini':
+            svgFace.background.color = "LightBlue"
         else:
             svgFace.background.color = "White"
 
@@ -477,6 +507,7 @@ def drawtree():
     description_text += "\n"
 
     #ts.title.add_face(TextFace(description_text, fsize=12), column=0)
+    t.render(SVG_TREEFILE, tree_style = ts, units = "mm", h = spequence_number*5)
     t.render(SVG_TREEFILE, tree_style = ts, units = "mm", h = 120)
 
 def run():
