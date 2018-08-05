@@ -1,12 +1,12 @@
 # VEGFC
-Python3 script for a phylogenetic analysis of VEGF-C amino acid sequences using BioPython [https://biopython.org], t_coffee, PhyML [http://www.atgc-montpellier.fr/phyml] and the ETE toolkit [http://etetoolkit.org]. Its main goal is not to get the phylogenetic relationship of the species correct (since that has been achieved multiple times elsewhere by using larger datasets), but to identify whether there are distinct subgroups within the VEGF-C orthologs and whether and how they cluster to the different vertebrate clades. It produces a graphical output in SVG format, which can be viewed using e.g. Inkscape or any SVG-capable bowser like Firefox or Chrome. The animal SVG silouette images are from [http://phylopic.org] (if public domain or CC0) or own creations.
+Python3 script for a phylogenetic analysis of VEGF-C amino acid sequences using BioPython [https://biopython.org], t_coffee [http://www.tcoffee.org/Projects/tcoffee/], PhyML [http://www.atgc-montpellier.fr/phyml] and the ETE toolkit [http://etetoolkit.org]. Its main goal is not to get the phylogenetic relationship of the species correct (since that has been achieved multiple times elsewhere by using larger datasets), but to identify whether there are distinct subgroups within the VEGF-C orthologs and whether and how they cluster to the different vertebrate clades. It produces a graphical output in SVG format, which can be viewed using e.g. Inkscape or any SVG-capable bowser like Firefox or Chrome. The animal SVG silouette images are from [http://phylopic.org] (if public domain or CC0) or own creations.
 
 
 ## Requirements
 This script has been developed to run under Linux and was specifically tested ONLY under Ubuntu 16.04 and 18.04. It has the following requirements:
 
 ### UBUNTU PACKAGES
-It requires the installation of the following Ubuntu packages: 
+It requires the installation of the following Ubuntu packages:
 
 * python3-setuptools
 * clustalw
@@ -36,7 +36,7 @@ In addition, the pcma executable need to be manually downloaded from [http://pro
 >tar -xvzf pcma.tar.gz
 >cd pcma
 >make
->sudo cp pcma /bin 
+>sudo cp pcma /bin
 
 ### OPTIONAL INSTALLS
 

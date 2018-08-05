@@ -507,7 +507,6 @@ def drawtree():
     description_text += "\n"
 
     #ts.title.add_face(TextFace(description_text, fsize=12), column=0)
-    t.render(SVG_TREEFILE, tree_style = ts, units = "mm", h = spequence_number*5)
     t.render(SVG_TREEFILE, tree_style = ts, units = "mm", h = 120)
 
 def run():
