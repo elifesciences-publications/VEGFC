@@ -489,12 +489,29 @@ def drawtree():
     #n1 = t.get_common_ancestor("XP_420532.3", "NP_446105.1")
 
     # spotted gar and coelacant
-    n1 = t.get_common_ancestor("XP_006632034.2", "XP_006006690.1")
-    n1.swap_children()
+    #n1 = t.get_common_ancestor("XP_006632034.2", "XP_006006690.1")
+    #n1.swap_children()
 
     # Atlantic salmon and coelacant
-    n2 = t.get_common_ancestor("NP_001167218.1", "XP_006006690.1")
+    #n2 = t.get_common_ancestor("NP_001167218.1", "XP_006006690.1")
+    #n2.swap_children()
+
+    # Tibet frog and coelacant
+    n2 = t.get_common_ancestor("XP_018419054.1", "XP_006006690.1")
     n2.swap_children()
+
+    # Xenopus and coelacant
+    n2 = t.get_common_ancestor("XP_002933363.1", "XP_006006690.1")
+    n2.swap_children()
+
+    # gekko and penguin
+    n2 = t.get_common_ancestor("XP_015283812.1", "XP_009329004.1")
+    n2.swap_children()
+
+    # alligator and penguin
+    n2 = t.get_common_ancestor("XP_006276984.1", "XP_009329004.1")
+    n2.swap_children()
+
 
     # Add description to treefile
     #
