@@ -60,7 +60,7 @@
 #
 # sudo pip3 install biopython ete3
 
-import argparse, subprocess, Bio, os, sys
+import argparse, subprocess, Bio, os, sys, shutil
 #from Bio.Blast import NCBIWWW
 #from Bio.Blast import NCBIXML
 #from Bio.Blast.Applications import NcbipsiblastCommandline
@@ -204,9 +204,17 @@ def align():
         "Convert into phylip using the following command:",
         "t_coffee -other_pg seq_reformat -in " + FASTA_ALIGNED_TRIMMED_CODED + " -output phylip_aln > " + PHYLIP_ALIGNED_TRIMMED_CODED)
 
+    # Detect whether parallel bootstrapping should be performed
+    mpirun_path = shutil.which('mpirun')
+    phymlmpi_path = shutil.which('phyml-mpi')
+    if mpirun_path != '' and phymlmpi_path != '':
+        phylo_command = "mpirun -n 4 phyml-mpi -i " + PHYLIP_ALIGNED_TRIMMED_CODED +  " -d aa -b 100"
+    else:
+        phylo_command = "phyml -i " + PHYLIP_ALIGNED_TRIMMED_CODED +  " -d aa -b -1"
+
     execute_subprocess(
         "Make tree with the following command:",
-        "phyml -i " + PHYLIP_ALIGNED_TRIMMED_CODED +  " -d aa -b -1")
+        phylo_command)
 
     # phyml adds or doesn't add the .txt extension to the output file (depending on the version) and we need to check for this!
     phyml_output_file = PHYLIP_ALIGNED_TRIMMED_CODED + "_phyml_tree"
@@ -215,6 +223,7 @@ def align():
     execute_subprocess(
         "Decoding tree file file into human-readable format using the following command:",
         "t_coffee -other_pg seq_reformat -decode code_names.list -in " + phyml_output_file + ".txt > " + PHYLIP_ALIGNED_TRIMMED_DECODED)
+
 
 def evaluate():
     execute_subprocess(
@@ -226,18 +235,29 @@ def evaluate():
         "t_coffee -other_pg seq_reformat -in sequences_aligned_trimmed.score_ascii -input number_aln -output fasta_aln > " + EVALUATIONFILE)
 
 def drawtree():
-    # LOAD FASTA SEQUENCES
-    all_sequences = list(SeqIO.parse(FASTA_ALIGNED_TRIMMED, "fasta"))
-    dict_of_sequences = {}
-    for seq_record in all_sequences:
-        dict_of_sequences[seq_record.id] = seq_record.seq
-        print(seq_record.id + " : " + seq_record.seq)
-
     # LOAD TCS EVALUATION FILE
     all_evaluations = list(SeqIO.parse(EVALUATIONFILE, "fasta"))
     dict_of_evaluations = {}
     for seq_record in all_evaluations:
         dict_of_evaluations[seq_record.id] = seq_record.seq
+        print(seq_record.id + " : " + seq_record.seq)
+
+    # LOAD NEWICK FILE TO CHECK FOR REMOVED TAXA AND REMOVE THEM FROM THE DICTIONARY
+    with open(PHYLIP_ALIGNED_TRIMMED_DECODED, 'r') as newick_file:
+        newick_string = newick_file.read()
+    for key in list(sequence_dictionary):
+        if key in newick_string:
+            print(key + " ok!")
+        else:
+            sequence_dictionary.pop(key, None)
+
+    # LOAD FASTA SEQUENCES
+    all_sequences = list(SeqIO.parse(FASTA_ALIGNED_TRIMMED, "fasta"))
+    dict_of_sequences = {}
+    for seq_record in all_sequences:
+        # Only load fasta sequence if it was not removed during tree assembly
+        if seq_record.id in newick_string:
+            dict_of_sequences[seq_record.id] = seq_record.seq
         print(seq_record.id + " : " + seq_record.seq)
 
     # AMINO ACID COLORING
@@ -524,7 +544,7 @@ def drawtree():
     description_text += "\n"
 
     #ts.title.add_face(TextFace(description_text, fsize=12), column=0)
-    t.render(SVG_TREEFILE, tree_style = ts, units = "mm", h = 120)
+    t.render(SVG_TREEFILE, tree_style = ts, units = "mm", h = 240)
 
 def run():
     if 'download' in args.options:
