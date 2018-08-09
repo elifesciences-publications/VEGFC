@@ -25,7 +25,7 @@ It requires the installation of the following Ubuntu packages:
 
 For some reason the Ubuntu package names some of the alignment executables differently and some links need to be created in order for t-coffee to find them:
 
->sudo ln -s /usr/bin/dialign-tx /bin/dialign-t
+>sudo ln -s /usr/bin/dialign-tx /bin/dialign-t\
 >sudo ln -s /usr/bin/clustalw /bin/clustalw2
 
 ### MANUAL INSTALLS
