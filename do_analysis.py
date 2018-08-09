@@ -60,12 +60,13 @@
 #
 # sudo pip3 install biopython ete3
 
-import argparse, subprocess, Bio, os, sys, shutil
+import argparse, subprocess, Bio, os, sys, shutil, re
 #from Bio.Blast import NCBIWWW
 #from Bio.Blast import NCBIXML
 #from Bio.Blast.Applications import NcbipsiblastCommandline
 from Bio import Entrez
 from Bio import SeqIO
+from Bio import Phylo
 from ete3 import Tree, TreeStyle, TextFace, NodeStyle, SequenceFace, ImgFace, SVGFace, faces, add_face_to_node
 
 FASTA = 'sequences.fasta'
@@ -78,10 +79,10 @@ EVALUATIONFILE = 'sequences_aligned_trimmed_score.fasta_aln'
 IMG_PATH = "./images/"
 SVG_TREEFILE = 'sequences_aligned.svg'
 REFERENCE_SEQUENCE = "NP_005420.1" # Homo sapiens
-
+SPECIES_TREE = 'tree_final_outgroup.newick'
 
 parser = argparse.ArgumentParser()
-parser.add_argument("options", help = "Possible command line arguments: download - only download sequences; align - only align sequences; evaluate - only evaluate sequence alignment; drawtree - only draw tree", nargs = '*', default = ['download', 'align', 'evaluate', 'drawtree'])
+parser.add_argument("options", help = "Possible command line arguments: download - only download sequences; gettree - only download and prepare the species tree; align - only align sequences; evaluate - only evaluate sequence alignment; drawtree - only draw tree", nargs = '*', default = ['download', 'gettree', 'align', 'evaluate', 'drawtree'])
 args = parser.parse_args()
 
 # Animal SVG silouette images from http://phylopic.org (public domain) or own creations
@@ -90,60 +91,6 @@ args = parser.parse_args()
 # Neoceratodus forsteri
 # Lepidosiren paradoxa
 #
-sequence_dictionary =  {'XP_022098898.1':["Starfish.svg", "Starfish", "Acanthaster planci", "Asteroidea"],
-         'XP_007894115.1':["Callorhinchus_milii.svg", "Ghost shark", "Callorhinchus milii", "Chondrichthyes"],
-#         'NP_002599.1':["Homo_sapiens.svg", "Human PDGF-B", "Homo sapiens", "Mammalia"],
-         'XP_020376152.1':["Rhincodon_typus.svg", "Whale shark", "Rhincodon typus", "Chondrichthyes"],
-         'ENSEBUT00000000354.1':["Eptatretus_burgeri.svg", "Hagfish", "Eptatretus burgeri", "Myxini", '''>ENSEBUT00000000354.1 PREDICTED: VEGF-C Inshore hagfish [Eptatretus burgeri]
-LAIDVLHLHIHPDYLQDNEDIQTDHDPWEIIDTDTFPKGALGPKRIERLTRRLLAASSVD
-DLLTLLYPWPEEATAQRCRRGHRTEPQFQAAVVNINWEAIELEWSNTLCAPRQACVPTGP
-DSHSVERSLHYRPPCVSLHRCTGCCNDPRRSCTSTAVQHVSKTVIEISLFPELVIRPVTI
-SYKNHTECHCLTIPFHNVRPPRSVSKTWRDGGQCGPTSGSCAKGTSWNVEACRCVAQQGV
-GEVCGPGMKWNEEMCNCVCWRVCPRGQRLHTQSCGCECALNTRDCFLRARRFDRRKCRCV
-TAPCPGAPEVCPVGLGFSEELCRCVPQDWIQGLQRNGG\n'''],
-         'LS-transcriptB2-ctg17881':['Leucoraja_erinacea.svg', 'Skate', "Leucoraja erinacea", "Chondrichthyes", '''>LS-transcriptB2-ctg17881 PREDICTED: VEGF-C Little skate [Leucoraja erinacea]
-RDQAHSQGQATSQLEQQLRSAASIIELMDIFYPEYRRIQECLQRRSTMAKHARREVEEEQ
-EEEEEEEWTEAAAFTVLWREEDLRNIELEWERTQCKPREVCLDLGRELGTATNNFYKPPC
-VSVHRCGGCCNNEGFQCINVSTAFVSKTLMEITIPQVGLSRPVVISFINHTACGCHPRHI
-FSHSHSIIRRSFHVSPTSCVMGNETCPRGHHWDPHHCGCVSVHEVAAPPASTAEPDVTEG
-EFDDFCGPYMVFDEDSCSCVCTNRPSSCHPSKEFDENTCRCVCFNRQHRGLCREEEQEEW
-DDDACQCVCRKSCPRHLPLNTNTCTCECSESPASCFRRGKKFDPYTCRCYRLPC\n'''],
-         'XP_006632034.2':["Spotted_gar.svg", "Spotted gar", "Lepisosteus oculatus", "Actinopterygii"],
-         'NP_001167218.1':["Salmo_salar.svg", "Atlantic salmon", "Salmo salar", "Actinopterygii"],
-         'NP_991297.1':["Danio_rerio.svg", "Zebrafish", "Danio rerio", "Actinopterygii"],
-         'XP_011610643.1':["Takifugu_rubripes.svg", "Fugu fish", "Takifugu rubripes", "Actinopterygii"],
-         'XP_020464669.1':["Monopterus_albus.svg", "Swamp eel", "Monopterus albus", "Actinopterygii"],
-         'XP_015809835.1':["Nothobranchius_furzeri.svg", "Killifish", "Nothobranchius furzeri", "Actinopterygii"],
-         'XP_023189044.1':["Platyfish.svg", "Platy fish", "Xiphophorus maculatus", "Actinopterygii"],
-         'XP_007564695.1':["Poecilia_formosa.svg", "Amazon molly", "Poecilia formosa", "Actinopterygii"],
-         'XP_006006690.1':["Coelacant.svg", "Coelacant", "Latimeria chalumnae", "Sarcopterygii"],
-         'XP_002933363.1':["Xenopus_tropicalis.svg", "Xenopus", "Xenopus tropicalis", "Amphibia"],
-         'XP_018419054.1':["Nanorana_parkeri.svg", "Tibet frog", "Nanorana parkeri", "Amphibia"],
-         'XP_015283812.1':["Gekko_japonicus.svg", "Gekko", "Gekko japonicus", "Reptilia"],
-         'ETE60014.1':["Ophiophagus_hannah.svg", "King cobra", "Ophiophagus hannah", "Reptilia"],
-         'XP_003221689.1':["Lizard.svg", "Anole lizard", "Anolis carolinensis", "Reptilia"],
-         'XP_005304228.1':["Turtle.svg", "Painted turtle", "Chrysemys picta bellii", "Reptilia"],
-         'XP_006276984.1':["Alligator_mississippiensis.svg", "American Alligator", "Alligator mississippiensis", "Reptilia"],
-         'XP_009329004.1':["Pygoscelis_adeliae.svg", "Penguin", "Pygoscelis adeliae", "Aves"],
-         'XP_013045797.1':["Anser_cygnoides_domesticus.svg", "Goose", "Anser cygnoides domesticus", "Aves"],
-         'XP_420532.3':["Gallus_gallus.svg", "Chicken", "Gallus gallus", "Aves"],
-         'XP_009486688.1':["Pelecanus_crispus.svg", "Pelican", "Pelecanus crispus", "Aves"],
-         'XP_008490178.1':["Calypte_anna.svg", "Hummingbird", "Calypte anna", "Aves"],
-         'XP_009564005.1':["Cuculus_canorus.svg", "Cuckoo", "Cuculus canorus", "Aves"],
-         'XP_002189592.1':["Taeniopygia_guttata.svg", "Zebra finch", "Taeniopygia guttata", "Aves"],
-         'XP_003415871.1':["Loxodonta_africana.svg", "African elephant", "Loxodonta africana", "Mammalia"],
-         'XP_540047.2':["Canis_familiaris.svg", "Dog", "Canis lupus familiaris", "Mammalia"],
-         'XP_526740.1':["Pan_troglodytes.svg", "Chimpanzee", "Pan troglodytes", "Mammalia"],
-         'NP_005420.1':["Homo_sapiens.svg", "Human", "Homo_sapiens", "Mammalia"],
-         'NP_776913.1':["Bos_taurus.svg", "Cattle", "Bos taurus", "Mammalia"],
-         'XP_019777186.1':["Tursiops_truncatus.svg", "Dolphin", "Tursiops truncatus", "Mammalia"],
-         'XP_004280970.1':["Orcinus_orca.svg", "Orca", "Orcinus orca", "Mammalia"],
-         'NP_033532.1':["Mus_musculus.svg", "Mouse", "Mus musculus", "Mammalia"],
-         'NP_446105.1':["Rattus_norvegicus.svg", "Rat", "Rattus norvegicus", "Mammalia"],
-         'XP_007496150.2':["Monodelphis_domestica.svg", "Opossum", "Monodelphis domestica", "Mammalia"],
-         'XP_004465018.1':["Dasypus_novemcinctus.svg", "Armadillo", "Dasypus novemcinctus", "Mammalia"],
-         'XP_002709527.1':["Oryctolagus_cuniculus.svg", "Rabbit", "Oryctolagus cuniculus", "Mammalia"],
-         'XP_017897598.1':["Capra_hircus.svg", "Goat", "Capra hircus", "Mammalia"]}
 
 def print_subprocess_result(name, out, err):
     if out.decode('utf-8') != '':
@@ -162,7 +109,83 @@ def execute_subprocess(comment, bash_command):
     if error.decode('UTF-8') != '':
         print("Error: " + str(error))
 
-def download():
+def gettree(sequence_dictionary):
+
+    def replace_node_name(filename_old, filename_new, regex, new_nodename):
+        with open(filename_old,'r') as f_old, open(filename_new,'w') as f_new:
+            content = f_old.read()
+            new_content = re.sub(regex, new_nodename, content, flags = re.M)
+            f_new.write(new_content)
+        os.remove(filename_old)
+        os.rename(filename_new, filename_old)
+        if content == new_content:
+            return False
+        else:
+            return True
+
+    def remove_key(dictionary, key):
+        new_dictionary = dict(dictionary)
+        del new_dictionary[key]
+        return new_dictionary
+
+    def add_outgroup(TREEFILE_FINAL, TREEFILE_FINAL_WITH_OUTGROUP, outgroup_key):
+        with open(TREEFILE_FINAL, 'r') as f_old, open(TREEFILE_FINAL_WITH_OUTGROUP, 'w') as f_new:
+            content = f_old.read()
+            # Add opening parenthesis to the beginning
+            content = "(" + content
+            # Remove last semicolon and add outgroup
+            content = content[:-1] + "," + outgroup_key + ");"
+            f_new.write(content)
+
+    # Vertebrate tree from open tree of life
+    URL = "https://tree.opentreeoflife.org/opentree/default/download_subtree/ottol-id/801601/Vertebrata"
+    execute_subprocess("Download phylogenetic species tree",
+                        "wget -O tree.tre " + URL)
+    TREEFILE_IN = 'tree.tre'
+    TREEFILE_OUT = 'tree.newick'
+    TREEFILE_INDENT = 'tree_indented.newick'
+    TREEFILE_TMP = 'tree_indented_tmp.newick'
+    TREEFILE_FINAL = 'tree_final.newick'
+    TREEFILE_FINAL_WITH_OUTGROUP = 'tree_final_outgroup.newick'
+    # This conversion from newick to newick format should not be necessary, but without
+    # it, ETE chokes on the newick file...
+    Phylo.convert(TREEFILE_IN, 'newick', TREEFILE_OUT, 'newick')
+    # Indents nodes and puts each node on a single line to facilitate checking of string replacements
+    execute_subprocess("Indenting newick format:\n", "nw_indent " + TREEFILE_OUT + " > " + TREEFILE_INDENT + "\n")
+    # Replace tree of life nodenames with own nodenames
+    for key, value in sequence_dictionary.items():
+        if replace_node_name(TREEFILE_INDENT, TREEFILE_TMP, value[2].replace(' ','_') + "_ott[0-9]*", key) == True:
+            #print("Replacing " + value[2] + " with " + key)
+            pass
+        else:
+            print(value[2] + " not found in tree! Removing from sequence dictionary.")
+            # The only seuence not in the tree file should be the outgroup. Store it in a
+            # temporary variable, remove it (for tree pruning), and add it later back.
+            outgroup_key = key
+            outgroup_value = value
+            sequence_dictionary = remove_key(sequence_dictionary, key)
+
+    t = Tree(TREEFILE_INDENT, format = 1, quoted_node_names = True)
+    # Remove from the full phylogenetic tree all species except those in the prune_list
+    prune_list = []
+    for key, value in sequence_dictionary.items():
+        prune_list.append(key)
+    #print("Prune list:\n" + str(prune_list))
+    t.prune(prune_list)
+    # Write the tree (format = 9 means only leave names)
+    t.write(format=9, outfile=TREEFILE_FINAL)
+    # Add the outgroup back.
+    sequence_dictionary[outgroup_key] = outgroup_value
+    # Add manually the outgroup to the tree file
+    add_outgroup(TREEFILE_FINAL, TREEFILE_FINAL_WITH_OUTGROUP, outgroup_key)
+    # Re-read modified tree file
+    t = Tree(TREEFILE_FINAL_WITH_OUTGROUP, format = 1)
+    # Set the outgroup
+    t.set_outgroup(outgroup_key)
+    # Display tree
+    print(t)
+
+def download(sequence_dictionary):
     # Get all fasta sequences from the SEQUENCE_LIST via Entrez
     Entrez.email = "michael@jeltsch.org"
     Entrez.tool = "local_script_under_development"
@@ -212,6 +235,8 @@ def align():
     else:
         phylo_command = "phyml -i " + PHYLIP_ALIGNED_TRIMMED_CODED +  " -d aa -b -1"
 
+    # The gene tree building is actually never used since the species tree is used for the tree drawing.
+    # We anyway calculate it to be able to compare gene and species trees.
     execute_subprocess(
         "Make tree with the following command:",
         phylo_command)
@@ -234,7 +259,7 @@ def evaluate():
         "Converting ascii score into (pseudo)fasta score using the following command:",
         "t_coffee -other_pg seq_reformat -in sequences_aligned_trimmed.score_ascii -input number_aln -output fasta_aln > " + EVALUATIONFILE)
 
-def drawtree():
+def drawtree(sequence_dictionary):
     # LOAD TCS EVALUATION FILE
     all_evaluations = list(SeqIO.parse(EVALUATIONFILE, "fasta"))
     dict_of_evaluations = {}
@@ -243,7 +268,7 @@ def drawtree():
         print(seq_record.id + " : " + seq_record.seq)
 
     # LOAD NEWICK FILE TO CHECK FOR REMOVED TAXA AND REMOVE THEM FROM THE DICTIONARY
-    with open(PHYLIP_ALIGNED_TRIMMED_DECODED, 'r') as newick_file:
+    with open(SPECIES_TREE, 'r') as newick_file:
         newick_string = newick_file.read()
     for key in list(sequence_dictionary):
         if key in newick_string:
@@ -308,7 +333,8 @@ def drawtree():
 
     outgroup_name = 'XP_022098898.1'
 
-    t = Tree(PHYLIP_ALIGNED_TRIMMED_DECODED)
+    print("Loading tree file " + SPECIES_TREE)
+    t = Tree(SPECIES_TREE)
     ts = TreeStyle()
     ts.show_leaf_name = False
     # Zoom in x-axis direction
@@ -317,8 +343,8 @@ def drawtree():
     ts.force_topology = True
     #Tree.render(t, "final_tree_decoded.svg")
     t.set_outgroup(t & outgroup_name)
-    ts.show_branch_support = True
-    ts.show_branch_length = True
+    ts.show_branch_support = False
+    ts.show_branch_length = False
     ts.draw_guiding_lines = True
     ts.branch_vertical_margin = 10 # 10 pixels between adjacent branches
     print(t)
@@ -516,20 +542,36 @@ def drawtree():
     #n2 = t.get_common_ancestor("NP_001167218.1", "XP_006006690.1")
     #n2.swap_children()
 
-    # Tibet frog and coelacant
-    n2 = t.get_common_ancestor("XP_018419054.1", "XP_006006690.1")
-    n2.swap_children()
+    # Tibet frog and coelacanttroglodytes
+    #n2 = t.get_common_ancestor("XP_018419054.1", "XP_006006690.1")
+    #n2.swap_children()
 
     # Xenopus and coelacant
-    n2 = t.get_common_ancestor("XP_002933363.1", "XP_006006690.1")
+    #n2 = t.get_common_ancestor("XP_002933363.1", "XP_006006690.1")
+    #n2.swap_children()
+
+    # alligator and penguin
+    #n2 = t.get_common_ancestor("XP_006276984.1", "XP_009329004.1")
+    #n2.swap_children()
+
+    # hagfish and human
+    n2 = t.get_common_ancestor("ENSEBUT00000000354.1", "NP_005420.1")
+    n2.swap_children()
+
+    # zebrafish and human
+    n2 = t.get_common_ancestor("NP_991297.1", "NP_005420.1")
+    n2.swap_children()
+
+    # Tibet frog and human
+    n2 = t.get_common_ancestor("XP_018419054.1", "NP_005420.1")
     n2.swap_children()
 
     # gekko and penguin
     n2 = t.get_common_ancestor("XP_015283812.1", "XP_009329004.1")
     n2.swap_children()
 
-    # alligator and penguin
-    n2 = t.get_common_ancestor("XP_006276984.1", "XP_009329004.1")
+    # turtle and penguin
+    n2 = t.get_common_ancestor("XP_005304228.1", "XP_009329004.1")
     n2.swap_children()
 
 
@@ -547,14 +589,70 @@ def drawtree():
     t.render(SVG_TREEFILE, tree_style = ts, units = "mm", h = 240)
 
 def run():
+    sequence_dictionary =  {'XP_022098898.1':["Starfish.svg", "Starfish", "Acanthaster planci", "Asteroidea"],
+             'XP_007894115.1':["Callorhinchus_milii.svg", "Ghost shark", "Callorhinchus milii", "Chondrichthyes"],
+    #         'NP_002599.1':["Homo_sapiens.svg", "Human PDGF-B", "Homo sapiens", "Mammalia"],
+             'XP_020376152.1':["Rhincodon_typus.svg", "Whale shark", "Rhincodon typus", "Chondrichthyes"],
+             'ENSEBUT00000000354.1':["Eptatretus_burgeri.svg", "Hagfish", "Eptatretus burgeri", "Myxini", '''>ENSEBUT00000000354.1 PREDICTED: VEGF-C Inshore hagfish [Eptatretus burgeri]
+    LAIDVLHLHIHPDYLQDNEDIQTDHDPWEIIDTDTFPKGALGPKRIERLTRRLLAASSVD
+    DLLTLLYPWPEEATAQRCRRGHRTEPQFQAAVVNINWEAIELEWSNTLCAPRQACVPTGP
+    DSHSVERSLHYRPPCVSLHRCTGCCNDPRRSCTSTAVQHVSKTVIEISLFPELVIRPVTI
+    SYKNHTECHCLTIPFHNVRPPRSVSKTWRDGGQCGPTSGSCAKGTSWNVEACRCVAQQGV
+    GEVCGPGMKWNEEMCNCVCWRVCPRGQRLHTQSCGCECALNTRDCFLRARRFDRRKCRCV
+    TAPCPGAPEVCPVGLGFSEELCRCVPQDWIQGLQRNGG\n'''],
+             'LS-transcriptB2-ctg17881':['Leucoraja_erinacea.svg', 'Skate', "Leucoraja erinacea", "Chondrichthyes", '''>LS-transcriptB2-ctg17881 PREDICTED: VEGF-C Little skate [Leucoraja erinacea]
+    RDQAHSQGQATSQLEQQLRSAASIIELMDIFYPEYRRIQECLQRRSTMAKHARREVEEEQ
+    EEEEEEEWTEAAAFTVLWREEDLRNIELEWERTQCKPREVCLDLGRELGTATNNFYKPPC
+    VSVHRCGGCCNNEGFQCINVSTAFVSKTLMEITIPQVGLSRPVVISFINHTACGCHPRHI
+    FSHSHSIIRRSFHVSPTSCVMGNETCPRGHHWDPHHCGCVSVHEVAAPPASTAEPDVTEG
+    EFDDFCGPYMVFDEDSCSCVCTNRPSSCHPSKEFDENTCRCVCFNRQHRGLCREEEQEEW
+    DDDACQCVCRKSCPRHLPLNTNTCTCECSESPASCFRRGKKFDPYTCRCYRLPC\n'''],
+             'XP_006632034.2':["Spotted_gar.svg", "Spotted gar", "Lepisosteus oculatus", "Actinopterygii"],
+             'NP_001167218.1':["Salmo_salar.svg", "Atlantic salmon", "Salmo salar", "Actinopterygii"],
+             'NP_991297.1':["Danio_rerio.svg", "Zebrafish", "Danio rerio", "Actinopterygii"],
+             'XP_011610643.1':["Takifugu_rubripes.svg", "Fugu fish", "Takifugu rubripes", "Actinopterygii"],
+             'XP_020464669.1':["Monopterus_albus.svg", "Swamp eel", "Monopterus albus", "Actinopterygii"],
+             'XP_015809835.1':["Nothobranchius_furzeri.svg", "Killifish", "Nothobranchius furzeri", "Actinopterygii"],
+             'XP_023189044.1':["Platyfish.svg", "Platy fish", "Xiphophorus maculatus", "Actinopterygii"],
+             'XP_007564695.1':["Poecilia_formosa.svg", "Amazon molly", "Poecilia formosa", "Actinopterygii"],
+             'XP_006006690.1':["Coelacant.svg", "Coelacant", "Latimeria chalumnae", "Sarcopterygii"],
+             'XP_002933363.1':["Xenopus_tropicalis.svg", "Xenopus", "Xenopus tropicalis", "Amphibia"],
+             'XP_018419054.1':["Nanorana_parkeri.svg", "Tibet frog", "Nanorana parkeri", "Amphibia"],
+             'XP_015283812.1':["Gekko_japonicus.svg", "Gekko", "Gekko japonicus", "Reptilia"],
+             'ETE60014.1':["Ophiophagus_hannah.svg", "King cobra", "Ophiophagus hannah", "Reptilia"],
+             'XP_003221689.1':["Lizard.svg", "Anole lizard", "Anolis carolinensis", "Reptilia"],
+             'XP_005304228.1':["Turtle.svg", "Painted turtle", "Chrysemys picta bellii", "Reptilia"],
+             'XP_006276984.1':["Alligator_mississippiensis.svg", "American Alligator", "Alligator mississippiensis", "Reptilia"],
+             'XP_009329004.1':["Pygoscelis_adeliae.svg", "Penguin", "Pygoscelis adeliae", "Aves"],
+             'XP_013045797.1':["Anser_cygnoides_domesticus.svg", "Goose", "Anser cygnoides domesticus", "Aves"],
+             'XP_420532.3':["Gallus_gallus.svg", "Chicken", "Gallus gallus", "Aves"],
+             'XP_009486688.1':["Pelecanus_crispus.svg", "Pelican", "Pelecanus crispus", "Aves"],
+             'XP_008490178.1':["Calypte_anna.svg", "Hummingbird", "Calypte anna", "Aves"],
+             'XP_009564005.1':["Cuculus_canorus.svg", "Cuckoo", "Cuculus canorus", "Aves"],
+             'XP_002189592.1':["Taeniopygia_guttata.svg", "Zebra finch", "Taeniopygia guttata", "Aves"],
+             'XP_003415871.1':["Loxodonta_africana.svg", "African elephant", "Loxodonta africana", "Mammalia"],
+             'XP_540047.2':["Canis_familiaris.svg", "Dog", "Canis lupus familiaris", "Mammalia"],
+             'XP_526740.1':["Pan_troglodytes.svg", "Chimpanzee", "Pan troglodytes troglodytes", "Mammalia"],
+             'NP_005420.1':["Homo_sapiens.svg", "Human", "Homo_sapiens", "Mammalia"],
+             'NP_776913.1':["Bos_taurus.svg", "Cattle", "Bos taurus", "Mammalia"],
+             'XP_019777186.1':["Tursiops_truncatus.svg", "Dolphin", "Tursiops truncatus", "Mammalia"],
+             'XP_004280970.1':["Orcinus_orca.svg", "Orca", "Orcinus orca", "Mammalia"],
+             'NP_033532.1':["Mus_musculus.svg", "Mouse", "Mus musculus", "Mammalia"],
+             'NP_446105.1':["Rattus_norvegicus.svg", "Rat", "Rattus norvegicus", "Mammalia"],
+             'XP_007496150.2':["Monodelphis_domestica.svg", "Opossum", "Monodelphis domestica", "Mammalia"],
+             'XP_004465018.1':["Dasypus_novemcinctus.svg", "Armadillo", "Dasypus novemcinctus", "Mammalia"],
+             'XP_002709527.1':["Oryctolagus_cuniculus.svg", "Rabbit", "Oryctolagus cuniculus", "Mammalia"],
+             'XP_017897598.1':["Capra_hircus.svg", "Goat", "Capra hircus", "Mammalia"]}
     if 'download' in args.options:
-        download()
+        download(sequence_dictionary)
+    if 'gettree' in args.options:
+        gettree(sequence_dictionary)
     if 'align' in args.options:
         align()
     if 'evaluate' in args.options:
         evaluate()
     if 'drawtree' in args.options:
-        drawtree()
+        drawtree(sequence_dictionary)
 
 if __name__ == '__main__':
     run()
