@@ -574,6 +574,21 @@ def drawtree(sequence_dictionary):
     n2 = t.get_common_ancestor("XP_005304228.1", "XP_009329004.1")
     n2.swap_children()
 
+    # Opossum and human
+    n2 = t.get_common_ancestor("XP_007496150.2", "NP_005420.1")
+    n2.swap_children()
+
+    # Dog and human
+    n2 = t.get_common_ancestor("XP_540047.2", "NP_005420.1")
+    n2.swap_children()
+
+    # Mouse and human
+    n2 = t.get_common_ancestor("NP_033532.1", "NP_005420.1")
+    n2.swap_children()
+
+    # Chimp and human
+    n2 = t.get_common_ancestor("XP_526740.1", "NP_005420.1")
+    n2.swap_children()
 
     # Add description to treefile
     #
