@@ -42,6 +42,7 @@
 # make
 # sudo cp pcma /bin
 #
+# nw_indent from Newick Utilities needs to be installed: https://github.com/tjunier/newick_utils
 #
 # OPTIONAL INSTALLS
 #
@@ -138,10 +139,11 @@ def gettree(sequence_dictionary):
             f_new.write(content)
 
     # Vertebrate tree from open tree of life
-    URL = "https://tree.opentreeoflife.org/opentree/default/download_subtree/ottol-id/801601/Vertebrata"
-    execute_subprocess("Download phylogenetic species tree",
-                        "wget -O tree.tre " + URL)
     TREEFILE_IN = 'tree.tre'
+    # The tree of life download function is still dysfunctional...
+    if not os.path.isfile(TREEFILE_IN):
+        URL = "https://tree.opentreeoflife.org/opentree/default/download_subtree/ottol-id/801601/Vertebrata"
+        execute_subprocess("Download phylogenetic species tree", "wget -O tree.tre " + URL)
     TREEFILE_OUT = 'tree.newick'
     TREEFILE_INDENT = 'tree_indented.newick'
     TREEFILE_TMP = 'tree_indented_tmp.newick'
