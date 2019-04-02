@@ -137,10 +137,11 @@ def gettree(sequence_dictionary):
             content = content[:-1] + "," + outgroup_key + ");"
             f_new.write(content)
 
-    # Vertebrate tree from open tree of life
-    URL = "https://tree.opentreeoflife.org/opentree/default/download_subtree/ottol-id/801601/Vertebrata"
-    execute_subprocess("Download phylogenetic species tree",
-                        "wget -O tree.tre " + URL)
+    # Vertebrate tree from open tree of life (download is dysfunctional since end of 2018, use a local copy)
+    if not os.path.isfile('tree.tre'):
+        URL = "https://tree.opentreeoflife.org/opentree/default/download_subtree/ottol-id/801601/Vertebrata"
+        execute_subprocess("Download phylogenetic species tree",
+                            "wget -O tree.tre " + URL)
     TREEFILE_IN = 'tree.tre'
     TREEFILE_OUT = 'tree.newick'
     TREEFILE_INDENT = 'tree_indented.newick'
