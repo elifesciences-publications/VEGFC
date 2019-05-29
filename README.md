@@ -1,3 +1,5 @@
+### This code is associated with the paper from Jha et al., "KLK3/PSA and cathepsin D activate VEGF-C and VEGF-D". eLife, 2019. http://dx.doi.org/10.7554/eLife.44478
+
 # VEGFC
 Python3 script for a phylogenetic analysis of VEGF-C amino acid sequences using BioPython [https://biopython.org], t_coffee [http://www.tcoffee.org/Projects/tcoffee], and the ETE toolkit [http://etetoolkit.org]. Its main goal is to identify whether there are distinct subgroups among the VEGF-C orthologs and whether and how they cluster to the different vertebrate clades. It produces a graphical output in SVG format, which can be viewed and edited using e.g. Inkscape [https://inkscape.org/en] or viewed with any SVG-capable bowser like Firefox or Chrome. The animal SVG silouette images are from [http://phylopic.org] (if public domain or CC0) or own creations. The script uses a species tree (from Open Tree [https://tree.opentreeoflife.org], which is used for the comparison. It produces also a gene tree (using PhyML [http://www.atgc-montpellier.fr/phyml]) for comparison, but the gene tree is not displayed by default.
 
